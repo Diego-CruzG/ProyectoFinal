@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <% flash.get('mensaje').forEach(function (msg) { %>
+        <div class="alert alert-success" role="alert">
+            <%=msg%>
+        </div>
+        <% }) %>
+
+        <h2>Clientes</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Activo</th>
+                    <th scope="col">Acción</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <% clientes.forEach( cliente => { %>
+                <tr>
+                    <td scope="row">
+                        <%=cliente.id%>
+                    </td>
+
+                    <td scope="row">
+                        <a href="/admin/ordenes-cliente/<%=cliente.id%>">
+                            <%=cliente.nombre%>
+                        </a>
+                    </td>
+                    
+                    <td scope="row">
+                        <%=cliente.email%>
+                    </td>
+
+                    <% if (session.admin.privilegio) { %>
+                    <td scope="row">
+                        <%=cliente.contrasena%>
+                    </td>
+                    <% } else { %>
+                    <td scope="row">
+                        ******
+                    </td>
+                    <% } %>
+
+                    <td scope="row">
+                        <%=cliente.activo ? "Si" : "No"%>
+                    </td>
+
+                    <td>
+                        <% if (cliente.activo) { %>
+                        <a href="/admin/desactivar-cliente/<%=cliente.id%>" class="btn btn-info">Desactivar Cliente</a>
+                        <% } else { %>
+                        <a href="/admin/activar-cliente/<%=cliente.id%>" class="btn btn-primary">Activar Cliente</a>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+    </div>
+</div>

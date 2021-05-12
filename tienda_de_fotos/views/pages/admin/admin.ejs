@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <% flash.get('mensaje').forEach(function (msg) { %>
+        <div class="alert alert-success" role="alert">
+            <%=msg%>
+        </div>
+        <% }) %>
+            
+        <h2>Administradores</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Privilegio</th>
+                    <th scope="col">Activo</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% administradores.forEach( administrador => { %>
+                <tr>
+                    <td scope="row">
+                        <%=administrador.id%>
+                    </td>
+
+                    <td scope="row">
+                        <%=administrador.nombre%>
+                    </td>
+
+                    <td scope="row">
+                        <%=administrador.email%>
+                    </td>
+                    
+                    <% if (session.admin.privilegio) { %>
+                    <td scope="row">
+                        <%=administrador.contrasena%>
+                    </td>
+                    <% } else { %>
+                    <td scope="row">
+                        ******
+                    </td>
+                    <% } %>
+
+                    <td scope="row">
+                        <%=administrador.privilegio ? "Master" : "User"%>
+                    </td>
+
+                    <td scope="row">
+                        <%=administrador.activo ? "Si" : "No"%>
+                    </td>
+
+                    <% if (session.admin.privilegio) { %>
+                    <td>
+                        <% if (administrador.privilegio && administrador.activo) { %>
+
+                        <% } else if (!administrador.privilegio && administrador.activo) { %>
+                        <a href="/admin/desactivar-admin/<%=administrador.id%>" class="btn btn-info">Desactivar Admin</a>
+                        <% } else { %>
+                        <a href="/admin/activar-admin/<%=administrador.id%>" class="btn btn-primary">Activar Admin</a>
+                        <% } %>
+                    </td>
+                    
+                    <% } else { %>
+                    <td>
+                        <% if (administrador.privilegio && administrador.activo) { %>
+
+                        <% } else if (!administrador.privilegio && administrador.activo) { %>
+                        <a href="#" class="btn btn-info disabled" aria-disabled="true">Desactivar Admin</a>
+                        <% } else { %>
+                        <a href="#" class="btn btn-primary disabled" aria-disabled="true">Activar Admin</a>
+                        <% } %>
+                    </td>
+                    <% } %>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+    </div>
+</div>
